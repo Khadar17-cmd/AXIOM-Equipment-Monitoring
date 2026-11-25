@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>{% block title %}Axiom | Equipment Intelligence{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">{% block head %}{% endblock %}</head>
+<body class="app-body">
+<aside class="sidebar"><a class="brand" href="/"><span class="brand-mark">A</span><span>AXIOM <small>INDUSTRIAL INTELLIGENCE</small></span></a><div class="nav-label">WORKSPACE</div>
+<a class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}" href="/"><span>◫</span> Overview</a>
+<a class="nav-link {% if request.endpoint=='equipment_page' %}active{% endif %}" href="/equipment"><span>▦</span> Equipment Monitor</a>
+{% if current_role=='admin' %}<a class="nav-link {% if request.endpoint=='add_equipment_page' %}active{% endif %}" href="/equipment/add"><span>＋</span> Register Equipment</a>{% endif %}
+<a class="nav-link {% if request.endpoint=='ai_detection_page' %}active{% endif %}" href="/ai-detection"><span>⌗</span> AI Detection</a>
+<a class="nav-link {% if request.endpoint=='chatbot_page' %}active{% endif %}" href="/assistant"><span>✧</span> Maintenance Assistant</a>
+<a class="nav-link {% if request.endpoint=='alerts_page' %}active{% endif %}" href="/alerts"><span>◉</span> Alerts & Maintenance</a>
+{% if current_role=='admin' %}<a class="nav-link {% if request.endpoint=='notifications_page' %}active{% endif %}" href="/notifications"><span>✉</span> Email Notifications</a>{% endif %}
+<a class="nav-link {% if request.endpoint=='analytics_page' %}active{% endif %}" href="/analytics"><span>▥</span> Analytics & Reports</a>
+{% if current_role=='admin' %}<div class="nav-label nav-label-spaced">ADMINISTRATION</div><a class="nav-link {% if request.endpoint=='users_page' %}active{% endif %}" href="/users"><span>♙</span> User Management</a>{% endif %}
+<div class="sidebar-bottom"><div class="profile"><div class="avatar">{{ (current_user or 'U')[:1]|upper }}</div><div><b>{{ current_user }}</b><small>{{ current_role|upper }} ACCESS</small></div></div><a class="logout-link" href="/logout">↗ Sign out</a></div></aside>
+<main class="main-content"><header class="top-header"><div><div class="eyebrow">SKILL TRAINING EQUIPMENT / MONITORING SYSTEM</div><div class="header-title">{% block page_heading %}Operations overview{% endblock %}</div></div><div class="header-right"><span class="live-indicator"><i></i> SYSTEM ONLINE</span><span class="header-date" id="headerClock"></span></div></header><div class="page-content">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="flash-message {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}{% block content %}{% endblock %}</div><footer class="footer">AXIOM INDUSTRIAL INTELLIGENCE <span>•</span> IoT & AI SKILL TRAINING MONITOR</footer></main>
+<script>const clock=document.getElementById('headerClock');function tickClock(){if(clock)clock.textContent=new Date().toLocaleString([], {dateStyle:'medium',timeStyle:'short'});}tickClock();setInterval(tickClock,30000);</script>{% block scripts %}{% endblock %}</body></html>
